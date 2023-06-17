@@ -1,16 +1,19 @@
 const mongoose = require("mongoose")
 const schema = mongoose.Schema;
 const {Snowflake} = require('@theinternetfolks/snowflake')
-
+function generatedId(){
+    return  Snowflake.generate();
+}
 const cummunitySchema = new mongoose.Schema(
     {
         _id: {
             type: String,
-            default:Snowflake.generate(),
+            default: generatedId
         },
         name:{
             type:String,
-            require:[true,'Please Enter the name of community']
+            require:[true,'Please Enter the name of community'],
+            min: [3, "Name should be of atleast 2 alphabets"],
         },
         slug:{
             type:String,
@@ -18,7 +21,7 @@ const cummunitySchema = new mongoose.Schema(
         },
         owner:{
             type:String,
-            ref:'user._id'
+            ref:'user'
         },
         created_at:{
             type:Date,
@@ -31,4 +34,4 @@ const cummunitySchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model("cummunity", cummunitySchema, "cummunnity");
+module.exports = mongoose.model("community", cummunitySchema, "community");

@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const authRoutes = require('../v1/auth.routes')
-const roleRoutes = require('../v1/role.routes')
+const authRoutes = require('./auth.routes')
+const roleRoutes = require('./role.routes')
+const communityRoutes = require('./community.routes');
+const memberRoutes = require('./member.routes');
 
 /**
  * Endpoint: /v1
@@ -10,6 +12,9 @@ const roleRoutes = require('../v1/role.routes')
 
 router.use("/auth",authRoutes);
 router.use("/role",roleRoutes);
+router.use("/community",communityRoutes)
+router.use("/member",memberRoutes)
+
 
 
 module.exports = router;

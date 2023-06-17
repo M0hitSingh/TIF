@@ -1,23 +1,25 @@
 const mongoose = require("mongoose");
 const {Snowflake} = require('@theinternetfolks/snowflake')
-
+function generatedId(){
+    return  Snowflake.generate();
+}
 const memberSchema = new mongoose.Schema(
     {
         _id: {
             type: String,
-            default:Snowflake.generate(),
+            default:generatedId
         },
         community: {
             type: String,
-            ref:'community._id'
+            ref:'community'
         },
         user:{
             type:String,
-            ref:'user._id'
+            ref:'user'
         },
         role: {
             type: String,
-            ref:'role._id'
+            ref:'role'
         },
         createdAt: { 
             type: Date,

@@ -2,7 +2,9 @@ const mongoose = require("mongoose")
 const bcrypt =  require("bcryptjs");
 const jwt = require('jsonwebtoken')
 const {Snowflake} = require('@theinternetfolks/snowflake')
-
+function generatedId(){
+    return  Snowflake.generate();
+}
 
 const userSchema = new mongoose.Schema({
     _id: {
@@ -62,4 +64,4 @@ userSchema.pre("save",async function(next){
     next();
 })
 
-module.exports =  mongoose.model("User", userSchema, "user");
+module.exports =  mongoose.model("user", userSchema, "user");
