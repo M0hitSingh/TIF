@@ -4,7 +4,7 @@ const express = require("express");
 const mongoose = require('mongoose')
 const notFound = require("./errors/notFound");
 const router = require("./routes");
-const errorHandlerMiddleware = require('./middleware/errorHandler');
+const errorHandlerMiddleware = require('./middleware/errorhandler');
 
 const corsOptions = {
     origin: "*",
