@@ -1,6 +1,5 @@
 const asyncWrapper = require("../util/asyncWrapper");
 const User = require("../model/user")
-
 const {createCustomError} = require('../errors/customAPIError')
 const { sendSuccessApiResponse } = require("../middleware/successApiResponse");
 
@@ -13,19 +12,23 @@ const signup = asyncWrapper(async (req,res,next)=>{
             return next(createCustomError(message, 406));
         }
         const user = await User.create(req.body);
-        const data = {user,token: user.generateJWT()} 
-        res.json(sendSuccessApiResponse(data,201));
+        const response = {
+            _id:user._id,
+            name:user.name,
+            email:user.name,
+            created_at:user.created_at
+        }
+        res.json(sendSuccessApiResponse(response,{"access_token":user.generateJWT()}));
     }
     catch(err){
-        console.log(err)
-        return createCustomError(err,400);
+        return next(createCustomError(err,400));
     }
 })
 
 const login = asyncWrapper(async (req,res,next)=>{
     try{
         const { email, password } = req.body;
-        const emailExists = await User.findOne({ email});
+        const emailExists = await User.findOne({email:email});
         if (!emailExists) {
             const message = "Email Not Exist";
             return next(createCustomError(message, 401));
@@ -35,21 +38,28 @@ const login = asyncWrapper(async (req,res,next)=>{
             const message = "Invalid credentials";
             return next(createCustomError(message, 401));
         }
-    
-        const data = {
-            name: emailExists.name,
-            email: emailExists.email,
-            token: emailExists.generateJWT(),
-        };
-        res.status(200).json(sendSuccessApiResponse(data));
+        const data = await User.findById(emailExists._id).select("_id name email created_at");
+        res.json(sendSuccessApiResponse(data,{"access_token":data.generateJWT()}));
     }
     catch(err){
-        return createCustomError(err,400);
+        return next(createCustomError(err,400));
+    }
+})
+
+const getMe = asyncWrapper(async (req,res,next)=>{
+    try{
+        const userId = req.user.userId;
+        const isUser = await User.findById(userId).select("_id name email created_at");
+        return res.json(sendSuccessApiResponse(isUser));
+    }
+    catch(err){
+        return next(createCustomError(err,400))
     }
 })
 
 
 module.exports = {
     login,
-    signup
+    signup,
+    getMe
 }

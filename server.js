@@ -50,8 +50,8 @@ app.options("*", cors);
 app.use(router);
 
 // Error handling
-app.use(errorHandlerMiddleware)
 app.use(notFound);
+app.use(errorHandlerMiddleware)
 
 app.listen(process.env.PORT,()=>{
     console.log("App is running at http://localhost:%d ",process.env.PORT);

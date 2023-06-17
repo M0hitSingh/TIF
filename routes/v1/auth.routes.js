@@ -1,5 +1,6 @@
 const express = require("express");
-const {login,signup} = require('../../controllers/auth.controller')
+const {login,signup, getMe} = require('../../controllers/auth.controller')
+const {authorization} = require("../../middleware/authorization")
 const router = express.Router();
 
 /**
@@ -8,6 +9,7 @@ const router = express.Router();
 
 router.post("/signup",signup);
 router.post("/login",login);
+router.route("/me").get(authorization,getMe)
 
 
 module.exports = router;

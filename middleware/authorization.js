@@ -14,7 +14,6 @@ const authorization = async (req, res, next) => {
     try {
         const payload =await jwt.verify(token, process.env.JWT_SECRET);
         const user = await User.findOne({_id: payload.userId});
-        console.log(user)
         if (!user) {
             return next(createCustomError("Invalid JWT"));
         } 

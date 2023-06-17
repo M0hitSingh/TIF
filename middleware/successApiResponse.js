@@ -1,17 +1,19 @@
 class successApiResponse {
-    constructor(statusCode = 200) {
-        this.status = { code: statusCode, message: "success" };
-        this.data = {};
-        this.error = {};
+    constructor() {
+        this.status = true;
+        this.content = {
+            data:{},
+            meta:{}
+        };
     }
-    data;
-    error;
     status;
+    content;
 }
 
-const sendSuccessApiResponse = (data, statusCode = 200) => {
-    const newApiResponse = new successApiResponse(statusCode);
-    newApiResponse.data = data;
+const sendSuccessApiResponse = (data,metadata) => {
+    const newApiResponse = new successApiResponse();
+    newApiResponse.content.data = data;
+    newApiResponse.content.meta = metadata
     return newApiResponse;
 };
 

@@ -48,12 +48,12 @@ const userSchema = new mongoose.Schema({
             return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
                 expiresIn: process.env.JWT_EXPIRATION,
             });
-        },
-        async comparePassword (candidatePassword) {
-            return await bcrypt.compare(candidatePassword, this.password);
         }
     }
 });
+userSchema.methods.comparePassword = async function (candidatePassword) {
+    return await bcrypt.compare(candidatePassword, this.password);
+};
 userSchema.pre("save",async function(next){
     if(this.isModified("password")){
         const salt = await bcrypt.genSalt(12);
