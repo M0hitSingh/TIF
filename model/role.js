@@ -9,6 +9,7 @@ const roleSchema = new mongoose.Schema(
         name:{
             type: String,
             unique:true,
+            min: [3, "Name should be of atleast 2 alphabets"],
             required: [true, "Please provide your Role Name"],
             trim: true,
         },

@@ -4,7 +4,7 @@ class APIFeatures {
       this.queryString = queryString;
     }
   
-    filter() {
+    filter(){
       console.log(1);
       const queryObj = { ...this.queryString };
       const excludedFields = ['page', 'sort', 'limit', 'fields'];
@@ -52,12 +52,11 @@ class APIFeatures {
   
     page() {
       const page = this.queryString.page * 1 || 1;
-      const limit = this.queryString.limit * 1 || 100;
+      const limit = this.queryString.limit * 1 || 10;
       const skip = (page - 1) * limit;
   
       this.query = this.query.skip(skip).limit(limit);
-  
-      return this;
+      return { query: this, page, limit };
     }
   }
   module.exports = APIFeatures;

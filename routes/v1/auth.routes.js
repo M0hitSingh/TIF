@@ -1,7 +1,8 @@
 const express = require("express");
+const router = express.Router();
+
 const {login,signup, getMe} = require('../../controllers/auth.controller')
 const {authorization} = require("../../middleware/authorization")
-const router = express.Router();
 
 /**
  * Endpoint: /v1/auth
